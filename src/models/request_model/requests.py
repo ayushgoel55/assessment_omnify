@@ -58,12 +58,14 @@ class SubscriptionStatus(Enum):
     INACTIVE = 0
 
 class BookingApi(BaseModel):
-
     user_name:str|None= Field(None, alias="client_name")
     user_email:str|None= Field(None, alias="client_email")
     class_id: uuid.UUID
 
-class BookingRequest(BookingApi):
+class BookingRequest(BaseModel):
+    user_name:str|None=None
+    user_email:str|None= None
+    class_id: uuid.UUID
     user_id: uuid.UUID | None = None
     modified_by: str
 

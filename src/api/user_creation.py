@@ -27,9 +27,10 @@ async def create_user(data:UserRequest):
 
 @user_router.get("/user")
 async def fetch_user_detail(email:str|None=None,user_name:str|None=None):
-    try:
-        if (not email or email in [""," "] ) and not user_name:
+    if not email and not user_name:
             raise HTTPException(status_code=400,detail="provide the argument asked")
+    try:
+        
         session = AsyncSessionGenerator()
         user_repo = UserRepository(session=session)
 

@@ -22,13 +22,13 @@ async def create_booking(data: BookingApi):
         raise HTTPException(status_code=400,detail="provide user_id or email")
     payload = data.model_dump()
 
-
     payload.update({
-        "modified_by": data.user_email or "",
+        "modified_by": data.user_email,
         "user_id": None
     })
-
+    print(payload, "payload")
     data = BookingRequest(**payload)
+    print(data.model_dump(), "data")
     booking_repo = BookingRepository(session=session)
     class_repo = ClassRepository(session=session)
     user_repo = UserRepository(session=session)

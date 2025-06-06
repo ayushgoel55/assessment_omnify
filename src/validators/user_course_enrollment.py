@@ -26,7 +26,8 @@ class BookingValidator(BaseValidator):
         error_messages: list[str] = []
 
 
-        if not (inp.user_id or inp.user_email or inp.user_name):
+        print(inp.model_dump(), "inp")
+        if not inp.user_id and not inp.user_email and not inp.user_name:
             has_error = True
             error_messages.append("Provide at least one of user_id, user_email, or user_name.")
 

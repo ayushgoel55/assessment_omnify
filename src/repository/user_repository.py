@@ -31,16 +31,20 @@ class UserRepository:
                 if not  user_name and not email and not user_id:
                     raise HTTPException(status_code=400,detail="provide user_name or email or id")
                 condition=[]
-                if user_name:
-                    condition.append(User.user_name==user_name)
-                if email:
+                if email and user_name or email and not user_name:
                         condition.append(User.email == email)
-                if user_id:
+                elif user_name:
+                    condition.append(User.user_name==user_name)
+                
+                elif user_id:
                     condition.append(User.id == user_id)
+                print(condition, "condition")    
                 result=await session.execute(
-                    select(User).where(and_(*condition))
+                    select(User).where(*condition)
                 )
-                return result.scalars().first()
+                result=result.scalars().first()
+                print(result, "result")
+                return result
             except Exception as error:
                 await session.rollback()
                 raise HTTPException(status_code=400,detail=f"something went wrong while entring the new user {error}")
