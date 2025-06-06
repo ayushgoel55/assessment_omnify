@@ -25,6 +25,81 @@ yoga,zumba,hiit
 the swagger of the app will be available at url listed below
 http://127.0.0.1:8000/docs
 
+curl -X 'GET' \
+  'http://127.0.0.1:8000/class' \
+  -H 'accept: application/json'
+
+
+
+
+returns => [
+  {
+    "class_name": "Yoga",
+    "instructor": "anshul",
+    "class_id": "f29d0b27-dc1e-4578-8c0b-5d27b40a75c4",
+    "batch_creation": "2025-06-06T13:59:16.327507",
+    "left_seats": 9
+  },
+  {
+    "class_name": "Zumba",
+    "instructor": "komal",
+    "class_id": "a36d9a4f-b674-4c04-b6a2-f0ee776b6536",
+    "batch_creation": "2025-06-06T14:34:43.913855",
+    "left_seats": 11
+  },
+  {
+    "class_name": "HIIT",
+    "instructor": "HIIT123",
+    "class_id": "0350406d-7c66-41de-a284-f30655ecf138",
+    "batch_creation": "2025-06-06T14:48:16.775125",
+    "left_seats": 10
+  }
+]
+
+
+
+curl -X 'GET' \
+  'http://127.0.0.1:8000/bookings?email_id=abc23%40example.com' \
+  -H 'accept: application/json'
+
+returns=>
+{
+  "user_id": "3e680d8e-6b94-4170-94de-c19cf1fbde8d",
+  "user_name": "string",
+  "total_classes": 1,
+  "enrolled_classes": [
+    {
+      "class_id": "a36d9a4f-b674-4c04-b6a2-f0ee776b6536",
+      "class_name": "Zumba",
+      "start_time": "2025-06-06T09:08:35.785000",
+      "end_time": "2025-06-06T09:08:35.785000",
+      "capacity": 12,
+      "status": 1
+    }
+  ]
+}
+
+//this api will have to change the class id because you cant enroll same student to same class again try with 0350406d-7c66-41de-a284-f30655ecf138
+curl -X 'POST' \
+  'http://127.0.0.1:8000/book' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "client_name": "abc23@example.com",
+  "client_email": "abc23@example.com",
+  "class_id": "f29d0b27-dc1e-4578-8c0b-5d27b40a75c4"
+}'
+
+returns=>
+"added successfully"
+
+
+
+
+
+
+
+
 you can also add the use and also add some more classes i have done that extra there is lot more in the model of the code but i have restricted what you can use through the swagger have a look at the code to see all the thing 
 __main__
 file in my code is used to register the models in the sqllite database and also running the uvicorn server at port 8000
